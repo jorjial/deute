@@ -5,7 +5,7 @@ sortedCAs = sort(unique(deute$data$comunidad))
 
 shinyUI(fluidPage(
   
-  titlePanel("Evolución de la deuda"),
+  titlePanel("Evolución de la deuda por comunidades autónomas"),
   
   sidebarLayout(
     sidebarPanel(
@@ -48,6 +48,11 @@ shinyUI(fluidPage(
                 selected = "Extremadura"),
     
     br(),
+
+    h6("Deuda según el Protocolo de Déficit Excesivo por Comunidades Autónomas. 
+       Porcentajes del PIB pm. Los datos de 2014 corresponden al primer semestre."),
+    
+    hr(),
     br(),
     
     h6("Autor: ", a("@jorjial", href="https://www.twitter.com/jorjial")),
@@ -61,7 +66,7 @@ shinyUI(fluidPage(
 
       plotOutput("mapDeute"),
       
-      h4("Comaración de la evolución de la deuda"),
+      h4("Comparación de la evolución de la deuda"),
       
       plotOutput("plotCAs")
       
