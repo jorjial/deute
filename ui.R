@@ -1,7 +1,7 @@
 library(shiny)
 
 deute <- readRDS("data/deute.rds")
-sortedCAs = sort(unique(deute$data$comunidad))
+sortedCAs = c("Seleccionar", sort(unique(deute$data$comunidad)))
 
 shinyUI(fluidPage(
   
@@ -14,13 +14,14 @@ shinyUI(fluidPage(
     
     br(),
     
-    sliderInput("year", label = "", min = 1995, max = 2014, value = 2008),
+    sliderInput("year", label = "", width = "80%",
+                min = 1995, max = 2014, value = 2008),
     
     hr(),
     br(),
     br(),
     
-    h5("También puedes comparar la deuda de diferentes CCAA"),
+    h5("También puedes comparar la deuda de hasta cinco CCAA"),
     
     selectInput("ca1", 
                 label = "",
@@ -30,22 +31,26 @@ shinyUI(fluidPage(
     selectInput("ca2", 
                 label = "",
                 choices = sortedCAs,
-                selected = "Cataluña"),
+                selected = "Seleccionar"),
     
     selectInput("ca3", 
                 label = "",
                 choices = sortedCAs,
-                selected = "Comunidad de Madrid"),
+                selected = "Seleccionar"),
     
     selectInput("ca4", 
                 label = "",
                 choices = sortedCAs,
-                selected = "Andalucía"),
+                selected = "Seleccionar"),
     
     selectInput("ca5", 
                 label = "",
                 choices = sortedCAs,
-                selected = "Extremadura"),
+                selected = "Seleccionar"),
+    
+    checkboxInput("siTotal",
+                  label = "Comparar con el total",
+                  value = TRUE),
     
     br(),
 
@@ -53,7 +58,8 @@ shinyUI(fluidPage(
        Porcentajes del PIB pm. Los datos de 2014 corresponden al primer semestre."),
     
     hr(),
-    br(),
+    
+    h6("Fuente: ", a("Banco de España", href="http://www.bde.es/webbde/es/estadis/infoest/htmls/cdp.html")),
     
     h6("Autor: ", a("@jorjial", href="https://www.twitter.com/jorjial")),
     
@@ -62,7 +68,7 @@ shinyUI(fluidPage(
     ),
     
     mainPanel(
-      h4("Porcentajes de deuda por comunidad autónoma"),
+      h4("Deuda en porcentajes del PIB por comunidad autónoma"),
 
       plotOutput("mapDeute"),
       

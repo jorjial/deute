@@ -1,18 +1,29 @@
 library("sp")
 library("ggplot2")
 
-plotCA <- function(deute, ca1, ca2, ca3, ca4, ca5){
-
-  ca6 = "Total"
+plotCA <- function(deute, ca1, ca2, ca3, ca4, ca5, siTotal){
+  
+  CAs = vector()
+  # Checking the CAs to add
+  for(ca in c(ca1, ca2, ca3, ca4, ca5)){
+    if(ca != "Seleccionar"){
+      CAs = c(CAs, ca)
+    }
+  }
+  
+  # Adding total
+  if(siTotal){
+    CAs = c(CAs, "Total")
+  }
   
   # plot
-  percentCA = deute$data[deute$data$comunidad %in% c(ca1, ca2, ca3, ca4, ca5, ca6),]
+  percentCA = deute$data[deute$data$comunidad %in% CAs,]
   
   p <- ggplot(percentCA, aes(x = any, y = as.numeric(deute), col=comunidad, group=comunidad))
   p <- p + geom_point() + geom_line()
   p <- p + xlab("Año") + theme(axis.text.x = element_text(angle = 90, hjust = 1, size=12))
   p <- p + theme(axis.title.x = element_text(size = rel(1.2)))
-  p <- p + ylab("Deuda (%)") + theme(axis.text.y = element_text(size=12))
+  p <- p + ylab("Deuda (% del PIB)") + theme(axis.text.y = element_text(size=12))
   p <- p + theme(axis.title.y = element_text(size = rel(1.2)))
   p <- p + scale_colour_manual(values=deute$pal2)
   p <- p + theme_bw()
